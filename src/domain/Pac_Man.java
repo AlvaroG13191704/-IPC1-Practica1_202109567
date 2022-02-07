@@ -10,20 +10,7 @@ public class Pac_Man {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
         int opcion = 0;
-        String nombre = "";
-        int filas, cols;
-        int comida, pared, trampa;
-        int opcionIcono;
-        String icono = "";
-        int contadorComida1 = 0;
-        int contadorComida2 = 0;
-        int contadorPared = 0;
-        int contadorTrampa = 0;
-        int x;
-        int y;
-        String movimiento = "";
-        int puntos = 0;
-        int vidas = 3;
+
         //Creacion del menu
         while (opcion != 3) {
             System.out.println("PAC-MAN    IPC 1   2022");
@@ -38,6 +25,20 @@ public class Pac_Man {
             switch (opcion) {
                 //INICIO CASE 1
                 case 1 -> {
+                    String nombre = "";
+                    int filas, cols;
+                    int comida, pared, trampa;
+                    int opcionIcono;
+                    String icono = "";
+                    int contadorComida1 = 0;
+                    int contadorComida2 = 0;
+                    int contadorPared = 0;
+                    int contadorTrampa = 0;
+                    int x;
+                    int y;
+                    String movimiento = "";
+                    int puntos = 0;
+                    int vidas = 3;
                     System.out.println("=======================================");
                     System.out.println("Bienvenido..............");
                     System.out.print("Ingrese su nombre: ");
@@ -269,6 +270,8 @@ public class Pac_Man {
                                        Movimiento a la derecha (d)
                                        Movimiento hacia arriba (w)
                                        Movimiento hacia abajo (s)
+                                       Finalizar juego (e)
+                                       Pausar juego (m)
                                        ...........................
                                        """);
                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
@@ -277,7 +280,7 @@ public class Pac_Man {
                     int puntosTotales = (comida1 * 5) + (comida2 * 10);
                     //boolean condicion = vidas != 0 && puntosTotales != puntos;
                     do {
-                        System.out.print("Ingrese la tecla para moverse: ");
+                        System.out.print("Ingrese la tecla para elegir una opción o moverse: ");
                         movimiento = scanner.next();
 
                         switch (movimiento) {
@@ -740,21 +743,21 @@ public class Pac_Man {
                                         for (int j = 0; j < cols; j++) {
                                             //Esto evalua que si despues de atravesar un borde hay cosas
                                             if (tablero[cols - 1][y] == " ") {
-                                                tablero[cols-1][y] = icono;
+                                                tablero[cols - 1][y] = icono;
                                                 tablero[x][y] = " ";
                                             } else if (tablero[cols - 1][y] == "@") {
-                                                tablero[cols -1][y] = icono;
+                                                tablero[cols - 1][y] = icono;
                                                 tablero[x][y] = " ";
                                                 puntos += 5;
                                             } else if (tablero[cols - 1][y] == "?") {
-                                                tablero[cols - 1 ][y] = icono;
+                                                tablero[cols - 1][y] = icono;
                                                 tablero[x][y] = " ";
                                                 puntos += 10;
                                             } else if (tablero[cols - 1][y] == "X") {
-                                                tablero[cols-1][y] = icono;
+                                                tablero[cols - 1][y] = icono;
                                                 tablero[x][y] = " ";
                                                 vidas = vidas - 1;
-                                            } else if (tablero[cols-1][y] == "#") {
+                                            } else if (tablero[cols - 1][y] == "#") {
                                                 tablero[x][y] = " ";
                                             }
                                         }
@@ -764,9 +767,9 @@ public class Pac_Man {
 
                                 //Actualizacion de y 
                                 if (tablero[x + 1][y] == "=") {
-                                    if (tablero[cols-1][y] == "X") {
+                                    if (tablero[cols - 1][y] == "X") {
                                         x = cols - 1;
-                                    } else if (tablero[cols -1][y] == "#") {
+                                    } else if (tablero[cols - 1][y] == "#") {
                                         x = x;
                                     } else {
                                         x = cols - 1;
@@ -780,15 +783,27 @@ public class Pac_Man {
                                 }
                                 //FIN DEL MOVIMIENTO HACIA ARRIBA
                                 break;
-
+                            case "e":
+                            case "E":
+                                //Finalizar juego
+                                System.out.println("SE HA FINALIZADO EL JUEGO");
+                                vidas = 0;
+                                break;
+                            case "M":
+                            case "m":
+                                break;
                             default:
                                 System.out.println("Valor desconocido");
                         }
                     } while (vidas != 0 && puntosTotales != puntos);
-                    
+
+                    //llamar metodo para guardar datos 
+                    guardarDatos(nombre, puntos);
+                   
+
                     System.out.println("=====================");
                     System.out.println("PARTIDA FINALIZADA");
-                    System.out.println("=====================");    
+                    System.out.println("=====================");
                     //FIN DEL CASE 1    
                 }
                 case 2 -> {
@@ -837,5 +852,15 @@ public class Pac_Man {
         System.out.println("========================================");
         imprimirTablero(tablero, bordeFilas, bordeCols);
         System.out.println("========================================");
+    }
+
+    //Reinicar todo los datos
+    public static void guardarDatos(String nombre, int puntos) {
+        //Pasarlas a una matriz 
+        String nuevoNombre = nombre;
+        int nuevoPuntos = puntos;
+        System.out.println("Jugador: " + nuevoNombre + " puntos obtenidos: " + nuevoPuntos);
+        //Reinicar todo los valores
+       
     }
 }
