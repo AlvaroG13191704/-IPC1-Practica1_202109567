@@ -2,6 +2,7 @@ package domain;
 
 import java.util.Random;
 import java.util.Scanner;
+import javax.xml.transform.OutputKeys;
 
 public class Pac_Man {
 
@@ -10,7 +11,8 @@ public class Pac_Man {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
         int opcion = 0;
-
+        String nombre = "";
+        int puntos = 0;
         //Creacion del menu
         while (opcion != 3) {
             System.out.println("PAC-MAN    IPC 1   2022");
@@ -25,7 +27,8 @@ public class Pac_Man {
             switch (opcion) {
                 //INICIO CASE 1
                 case 1 -> {
-                    String nombre = "";
+                    nombre = "";
+                    puntos = 0;
                     int filas, cols;
                     int comida, pared, trampa;
                     int opcionIcono;
@@ -37,8 +40,8 @@ public class Pac_Man {
                     int x;
                     int y;
                     String movimiento = "";
-                    int puntos = 0;
                     int vidas = 3;
+                    int opcionPausa;
                     System.out.println("=======================================");
                     System.out.println("Bienvenido..............");
                     System.out.print("Ingrese su nombre: ");
@@ -783,33 +786,70 @@ public class Pac_Man {
                                 }
                                 //FIN DEL MOVIMIENTO HACIA ARRIBA
                                 break;
+                            case "M":
+                            case "m":
+                                //Menu de pausa 
+                                do {
+                                    System.out.println("=====================");
+                                    System.out.println("PARTIDA EN PAUSA");
+                                    System.out.println("=====================");
+                                    System.out.println("""
+                                                       1. CONTINUAR PARTIDA
+                                                       2. TABLA DE POSICIONES
+                                                       3. SALIR DE LA PARTIDA
+                                                       """);
+                                    System.out.println("=====================");
+                                    System.out.print("Escoga una opción: ");
+                                    opcionPausa = Integer.parseInt(scanner.next());
+
+                                    switch (opcionPausa) {
+                                        case 1:
+                                            opcionPausa = 4;
+                                            break;
+                                        case 2:
+                                            //Tablero
+                                            imprimirDatos(nombre, puntos);
+                                            break;
+                                        case 3:
+                                            vidas = 0;
+                                            break;
+                                        default:
+                                            System.out.println("Valor desconocido");
+                                    }
+
+                                } while (opcionPausa != 4 && vidas != 0);
+                                break;
                             case "e":
                             case "E":
                                 //Finalizar juego
-                                System.out.println("SE HA FINALIZADO EL JUEGO");
+                                System.out.println("HAZ FINALIZADO EL JUEGO");
                                 vidas = 0;
-                                break;
-                            case "M":
-                            case "m":
                                 break;
                             default:
                                 System.out.println("Valor desconocido");
                         }
                     } while (vidas != 0 && puntosTotales != puntos);
-
+                    
                     //llamar metodo para guardar datos 
                     guardarDatos(nombre, puntos);
-                   
+                    //Reiniciando las variables
+                    
+                    
 
                     System.out.println("=====================");
                     System.out.println("PARTIDA FINALIZADA");
                     System.out.println("=====================");
                     //FIN DEL CASE 1    
+
                 }
                 case 2 -> {
+                    System.out.println("TABLA DE POSICIONES");
+                    System.out.println("=====================");
+                    imprimirDatos(nombre, puntos);
+                    System.out.println("=====================");
                 }
                 case 3 ->
-                    System.out.println(""" 
+                    System.out.println("""
                                              GRACIAS POR JUGAR PAC-MAN 
                                              Practica de Alvaro García""");
                 default ->
@@ -854,13 +894,19 @@ public class Pac_Man {
         System.out.println("========================================");
     }
 
-    //Reinicar todo los datos
+    //pasar los datos a un metodo 
     public static void guardarDatos(String nombre, int puntos) {
         //Pasarlas a una matriz 
+        imprimirDatos(nombre, puntos);
+
+    }
+
+    //Imprimir
+    public static void imprimirDatos(String nombre, int puntos) {
+        String[] listaJugador = new String[10]; 
         String nuevoNombre = nombre;
-        int nuevoPuntos = puntos;
-        System.out.println("Jugador: " + nuevoNombre + " puntos obtenidos: " + nuevoPuntos);
-        //Reinicar todo los valores
-       
+        String nuevoPuntos = Integer.toString(puntos);
+        String  jugador = "Jugador: " + nuevoNombre + " |" + nuevoPuntos;
+        System.out.println(jugador);
     }
 }
