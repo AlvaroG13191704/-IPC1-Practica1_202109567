@@ -16,7 +16,7 @@ public class Pac_Man {
         int opcion = 0;
         String nombre = "";
         int puntos = 0;
-        int contadorLista = 0;
+        int contadorLista = 1;
         //Creacion del menu
         while (opcion != 3) {
             System.out.println("PAC-MAN    IPC 1   2022");
@@ -784,7 +784,8 @@ public class Pac_Man {
                                             break;
                                         case 2:
                                             //Tablero
-                                            imprimirDatos(nombre, puntos, contadorLista, listaJugador, listaPuntos);
+                                            guardarDatos(nombre, puntos, contadorLista, listaJugador, listaPuntos);
+                                            imprimirDatos(listaJugador, listaPuntos);
                                             break;
                                         case 3:
                                             vidas = 0;
@@ -819,7 +820,8 @@ public class Pac_Man {
                 case 2 -> {
                     System.out.println("TABLA DE POSICIONES");
                     System.out.println("=====================");
-                    imprimirDatos(nombre, puntos, contadorLista, listaJugador, listaPuntos);
+                    guardarDatos(nombre, puntos, contadorLista, listaJugador, listaPuntos);
+                    imprimirDatos(listaJugador, listaPuntos);
                     System.out.println("=====================");
                 }
                 case 3 ->
@@ -883,7 +885,7 @@ public class Pac_Man {
 
     //pasar los datos a un metodo 
     //Imprimir
-    public static void imprimirDatos(String nombre, int puntos, int contadorLista, String[] listaJugador, int[] listaPuntos) {
+    public static void guardarDatos(String nombre, int puntos, int contadorLista, String[] listaJugador, int[] listaPuntos) {
 
         String nuevoNombre = nombre;
         int nuevoPuntos = puntos;
@@ -892,17 +894,18 @@ public class Pac_Man {
 
         //Arrelgos
         if (listaJugador.length > contador && listaPuntos.length > contador) {
-            listaJugador[contador - 1] = nuevoNombre;
-            listaPuntos[contador - 1] = nuevoPuntos;
-        } else {
+            listaJugador[contador-2] = nuevoNombre;
+            listaPuntos[contador-2] = nuevoPuntos;
+        } 
+    }
 
-        }
+    public static void imprimirDatos(String[] listaJugador, int[] listaPuntos) {
         //Imprimir    
         for (int i = 0; i < 10; i++) {
-            System.out.println(i+1 + "." + listaJugador[i] + " - " + listaPuntos[i]);
+            if (listaJugador[i] != null) {
+                System.out.println(i + 1 + "." + listaJugador[i] + " - " + listaPuntos[i]);
+            }
         }
-        
-        System.out.println("Cantidad de contador: " + contador);
-
     }
+
 }
