@@ -2,7 +2,6 @@ package domain;
 
 import java.util.Random;
 import java.util.Scanner;
-import javax.xml.transform.OutputKeys;
 
 public class Pac_Man {
 
@@ -10,9 +9,14 @@ public class Pac_Man {
         //Imports/ variables globales
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
+
+        String[] listaJugador = new String[10];
+        int[] listaPuntos = new int[10];
+
         int opcion = 0;
         String nombre = "";
         int puntos = 0;
+        int contadorLista = 0;
         //Creacion del menu
         while (opcion != 3) {
             System.out.println("PAC-MAN    IPC 1   2022");
@@ -40,8 +44,9 @@ public class Pac_Man {
                     int x;
                     int y;
                     String movimiento = "";
-                    int vidas = 10;
+                    int vidas = 3;
                     int opcionPausa;
+
                     System.out.println("=======================================");
                     System.out.println("Bienvenido..............");
                     System.out.print("Ingrese su nombre: ");
@@ -256,7 +261,7 @@ public class Pac_Man {
                                     tablero[x][y] = icono;
                                 }
                             }
-                            imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                            imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
                         }
                     } while (tablero[x][y] != icono);
                     System.out.println("""
@@ -277,7 +282,7 @@ public class Pac_Man {
                                        Pausar juego (m)
                                        ...........................
                                        """);
-                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
 
                     //INICIAR MOVIMIENTO
                     int puntosTotales = (comida1 * 5) + (comida2 * 10);
@@ -301,7 +306,7 @@ public class Pac_Man {
                                         }
                                     }
                                     trampaExis = false;
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
                                 } //Evaluar casilla de pared
                                 else if (tablero[x][y + 1] == "#") {
 
@@ -309,10 +314,10 @@ public class Pac_Man {
                                         for (int j = 0; j < cols; j++) {
                                             tablero[x][y + 1] = "#";
                                             //tablero[x][y] = icono;
-                                            
+
                                         }
                                     }
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
                                     System.out.println("Casilla ocupada, hay una pared");
 
                                 } //Evaluar casilla de comida 1
@@ -326,7 +331,7 @@ public class Pac_Man {
                                     }
                                     trampaExis = false;
                                     puntos += 5;
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
 
                                 } //Evaluar casilla de comida 2
                                 else if (tablero[x][y + 1] == "?") {
@@ -339,7 +344,7 @@ public class Pac_Man {
                                     }
                                     trampaExis = false;
                                     puntos += 10;
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
 
                                 } //Evaluar trampas 
                                 else if (tablero[x][y + 1] == "X") {
@@ -353,7 +358,7 @@ public class Pac_Man {
                                     }
                                     trampaExis = true;
                                     vidas = vidas - 1;
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
 
                                 } //Moverse entre bordes
                                 else if (tablero[x][y + 1] == "|") {
@@ -388,7 +393,7 @@ public class Pac_Man {
                                             }
                                         }
                                     }
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
                                 }
 
                                 //Actualizacion de y 
@@ -421,7 +426,7 @@ public class Pac_Man {
                                         }
                                     }
                                     trampaExis = false;
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
                                 } //Evaluar casilla de pared
                                 else if (tablero[x][y - 1] == "#") {
 
@@ -431,7 +436,7 @@ public class Pac_Man {
                                             //tablero[x][y] = icono;
                                         }
                                     }
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
                                     System.out.println("Casilla ocupada, hay una pared");
 
                                 } //Evaluar casilla de comida 1
@@ -445,7 +450,7 @@ public class Pac_Man {
                                     }
                                     trampaExis = false;
                                     puntos += 5;
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
                                 } //Evaluar casilla de comida 2
                                 else if (tablero[x][y - 1] == "?") {
                                     for (int i = 0; i < filas; i++) {
@@ -457,7 +462,7 @@ public class Pac_Man {
                                     }
                                     trampaExis = false;
                                     puntos += 10;
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
 
                                 } //Evaluar trampas 
                                 else if (tablero[x][y - 1] == "X") {
@@ -466,13 +471,13 @@ public class Pac_Man {
 
                                             //Esto evalua que si despues de la trampa hay cosas
                                             tablero[x][y - 1] = icono;
-                                           verificarTrampa(trampaExis, tablero, x, y);
+                                            verificarTrampa(trampaExis, tablero, x, y);
 
                                         }
                                     }
                                     trampaExis = true;
                                     vidas = vidas - 1;
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
 
                                 } //Moverse entre bordes
                                 else if (tablero[x][y - 1] == "|") {
@@ -507,11 +512,11 @@ public class Pac_Man {
                                             }
                                         }
                                     }
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
                                 }
                                 //Actualizando y
                                 if (tablero[x][y - 1] == "|") {
-                                    
+
                                     if (tablero[x][y] == "#") {
                                         y = y;
                                     } else {
@@ -538,7 +543,7 @@ public class Pac_Man {
                                         }
                                     }
                                     trampaExis = false;
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
                                 } //Evaluar casilla de pared
                                 else if (tablero[x + 1][y] == "#") {
 
@@ -548,7 +553,7 @@ public class Pac_Man {
                                             //tablero[x][y] = icono;
                                         }
                                     }
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
                                     System.out.println("Casilla ocupada, hay una pared");
 
                                 } //Evaluar casilla de comida 1
@@ -562,7 +567,7 @@ public class Pac_Man {
                                     }
                                     trampaExis = false;
                                     puntos += 5;
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
                                 } //Evaluar casilla de comida 2
                                 else if (tablero[x + 1][y] == "?") {
                                     for (int i = 0; i < filas; i++) {
@@ -574,7 +579,7 @@ public class Pac_Man {
                                     }
                                     trampaExis = false;
                                     puntos += 10;
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
 
                                 } //Evaluar trampas 
                                 else if (tablero[x + 1][y] == "X") {
@@ -589,7 +594,7 @@ public class Pac_Man {
                                     }
                                     trampaExis = true;
                                     vidas = vidas - 1;
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
 
                                 } //Moverse entre bordes
                                 else if (tablero[x + 1][y] == "=") {
@@ -624,7 +629,7 @@ public class Pac_Man {
                                             }
                                         }
                                     }
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
                                 }
 
                                 //Actualizacion de x 
@@ -655,7 +660,7 @@ public class Pac_Man {
                                         }
                                     }
                                     trampaExis = false;
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
                                 } //Evaluar casilla de pared
                                 else if (tablero[x - 1][y] == "#") {
 
@@ -665,7 +670,7 @@ public class Pac_Man {
                                             //tablero[x][y] = icono;
                                         }
                                     }
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
                                     System.out.println("Casilla ocupada, hay una pared");
 
                                 } //Evaluar casilla de comida 1
@@ -679,7 +684,7 @@ public class Pac_Man {
                                     }
                                     trampaExis = false;
                                     puntos += 5;
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
                                 } //Evaluar casilla de comida 2
                                 else if (tablero[x - 1][y] == "?") {
                                     for (int i = 0; i < filas; i++) {
@@ -691,7 +696,7 @@ public class Pac_Man {
                                     }
                                     trampaExis = false;
                                     puntos += 10;
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
 
                                 } //Evaluar trampas 
                                 else if (tablero[x - 1][y] == "X") {
@@ -699,13 +704,13 @@ public class Pac_Man {
                                         for (int j = 0; j < cols; j++) {
 
                                             //Esto evalua que si despues de la trampa hay cosas
-                                           verificarTrampa(trampaExis, tablero, x, y);
+                                            verificarTrampa(trampaExis, tablero, x, y);
 
                                         }
                                     }
-                                    trampaExis = true; 
+                                    trampaExis = true;
                                     vidas = vidas - 1;
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
 
                                 } //Moverse entre bordes
                                 else if (tablero[x - 1][y] == "=") {
@@ -736,11 +741,11 @@ public class Pac_Man {
                                                 trampaExis = true;
                                                 vidas = vidas - 1;
                                             } else if (tablero[cols - 1][y] == "#") {
-                                                tablero[x+1][y] = "#";
+                                                tablero[x + 1][y] = "#";
                                             }
                                         }
                                     }
-                                    imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+                                    imprimirJuego(tablero, nombre, puntos, vidas, bordeFilas, bordeCols);
                                 }
 
                                 //Actualizacion de y 
@@ -779,7 +784,7 @@ public class Pac_Man {
                                             break;
                                         case 2:
                                             //Tablero
-                                            imprimirDatos(nombre, puntos);
+                                            imprimirDatos(nombre, puntos, contadorLista, listaJugador, listaPuntos);
                                             break;
                                         case 3:
                                             vidas = 0;
@@ -801,10 +806,10 @@ public class Pac_Man {
                         }
                     } while (vidas != 0 && puntosTotales != puntos);
 
-                    //llamar metodo para guardar datos 
-                    guardarDatos(nombre, puntos);
-                    //Reiniciando las variables
+                    //Contador
+                    contadorLista++;
 
+                    //guardarDatos(nombre, puntos);
                     System.out.println("=====================");
                     System.out.println("PARTIDA FINALIZADA");
                     System.out.println("=====================");
@@ -814,7 +819,7 @@ public class Pac_Man {
                 case 2 -> {
                     System.out.println("TABLA DE POSICIONES");
                     System.out.println("=====================");
-                    imprimirDatos(nombre, puntos);
+                    imprimirDatos(nombre, puntos, contadorLista, listaJugador, listaPuntos);
                     System.out.println("=====================");
                 }
                 case 3 ->
@@ -858,7 +863,7 @@ public class Pac_Man {
     }
 
     //Imprimir juego
-    public static void imprimirJuego(String[][] tablero, int nombre, int puntos, int vidas, int bordeFilas, int bordeCols) {
+    public static void imprimirJuego(String[][] tablero, String nombre, int puntos, int vidas, int bordeFilas, int bordeCols) {
         System.out.println("========================================");
         System.out.println("|Jugador: " + nombre + "| Puntos: " + puntos + "| Vidas Restantes: " + vidas + "|");
         System.out.println("========================================");
@@ -870,27 +875,34 @@ public class Pac_Man {
     public static void verificarTrampa(boolean trampaExis, String[][] tablero, int x, int y) {
         if (trampaExis) {
             tablero[x][y] = "X";
-            
+
         } else {
             tablero[x][y] = " ";
-        }    
+        }
     }
-    //Especial trampas
-    
 
     //pasar los datos a un metodo 
-    public static void guardarDatos(String nombre, int puntos) {
-        //Pasarlas a una matriz 
-        imprimirDatos(nombre, puntos);
-
-    }
-
     //Imprimir
-    public static void imprimirDatos(String nombre, int puntos) {
-        String[] listaJugador = new String[10];
+    public static void imprimirDatos(String nombre, int puntos, int contadorLista, String[] listaJugador, int[] listaPuntos) {
+
         String nuevoNombre = nombre;
-        String nuevoPuntos = Integer.toString(puntos);
-        String jugador = "Jugador: " + nuevoNombre + " |" + nuevoPuntos;
-        System.out.println(jugador);
+        int nuevoPuntos = puntos;
+
+        int contador = contadorLista;
+
+        //Arrelgos
+        if (listaJugador.length > contador && listaPuntos.length > contador) {
+            listaJugador[contador - 1] = nuevoNombre;
+            listaPuntos[contador - 1] = nuevoPuntos;
+        } else {
+
+        }
+        //Imprimir    
+        for (int i = 0; i < 10; i++) {
+            System.out.println(i+1 + "." + listaJugador[i] + " - " + listaPuntos[i]);
+        }
+        
+        System.out.println("Cantidad de contador: " + contador);
+
     }
 }
