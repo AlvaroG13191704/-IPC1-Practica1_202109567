@@ -40,7 +40,7 @@ public class Pac_Man {
                     int x;
                     int y;
                     String movimiento = "";
-                    int vidas = 3;
+                    int vidas = 10;
                     int opcionPausa;
                     System.out.println("=======================================");
                     System.out.println("Bienvenido..............");
@@ -281,6 +281,7 @@ public class Pac_Man {
 
                     //INICIAR MOVIMIENTO
                     int puntosTotales = (comida1 * 5) + (comida2 * 10);
+                    boolean trampaExis = false;
                     //boolean condicion = vidas != 0 && puntosTotales != puntos;
                     do {
                         System.out.print("Ingrese la tecla para elegir una opción o moverse: ");
@@ -295,10 +296,11 @@ public class Pac_Man {
                                     for (int i = 0; i < filas; i++) {
                                         for (int j = 0; j < cols; j++) {
                                             tablero[x][y + 1] = icono;
-                                            tablero[x][y] = " ";
-
+                                            //tablero[x][y] = " ";
+                                            verificarTrampa(trampaExis, tablero, x, y);
                                         }
                                     }
+                                    trampaExis = false;
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
                                 } //Evaluar casilla de pared
                                 else if (tablero[x][y + 1] == "#") {
@@ -307,6 +309,7 @@ public class Pac_Man {
                                         for (int j = 0; j < cols; j++) {
                                             tablero[x][y + 1] = "#";
                                             //tablero[x][y] = icono;
+                                            
                                         }
                                     }
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
@@ -317,21 +320,24 @@ public class Pac_Man {
                                     for (int i = 0; i < filas; i++) {
                                         for (int j = 0; j < cols; j++) {
                                             tablero[x][y + 1] = icono;
-                                            tablero[x][y] = " ";
-
+                                            //tablero[x][y] = " ";
+                                            verificarTrampa(trampaExis, tablero, x, y);
                                         }
                                     }
+                                    trampaExis = false;
                                     puntos += 5;
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
+
                                 } //Evaluar casilla de comida 2
                                 else if (tablero[x][y + 1] == "?") {
                                     for (int i = 0; i < filas; i++) {
                                         for (int j = 0; j < cols; j++) {
                                             tablero[x][y + 1] = icono;
-                                            tablero[x][y] = " ";
-
+                                            //tablero[x][y] = " ";
+                                            verificarTrampa(trampaExis, tablero, x, y);
                                         }
                                     }
+                                    trampaExis = false;
                                     puntos += 10;
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
 
@@ -341,27 +347,11 @@ public class Pac_Man {
                                         for (int j = 0; j < cols; j++) {
 
                                             //Esto evalua que si despues de la trampa hay cosas
-                                            if (tablero[x][y + 2] == " ") {
-                                                tablero[x][y + 2] = icono;
-                                                tablero[x][y] = " ";
-                                            } else if (tablero[x][y + 2] == "@") {
-                                                tablero[x][y + 2] = icono;
-                                                tablero[x][y] = " ";
-                                                puntos += 5;
-                                            } else if (tablero[x][y + 2] == "?") {
-                                                tablero[x][y + 2] = icono;
-                                                tablero[x][y] = " ";
-                                                puntos += 10;
-                                            } else if (tablero[x][y + 2] == "X") {
-                                                tablero[x][y + 3] = icono;
-                                                tablero[x][y] = " ";
-
-                                            } else if (tablero[x][y + 2] == "#") {
-                                                tablero[x][y] = " ";
-                                            }
-
+                                            tablero[x][y + 1] = icono;
+                                            verificarTrampa(trampaExis, tablero, x, y);
                                         }
                                     }
+                                    trampaExis = true;
                                     vidas = vidas - 1;
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
 
@@ -372,18 +362,26 @@ public class Pac_Man {
                                             //Esto evalua que si despues de atravesar un borde hay cosas
                                             if (tablero[x][y - (y - 1)] == " ") {
                                                 tablero[x][y - (y - 1)] = icono;
-                                                tablero[x][y] = " ";
+                                                //tablero[x][y] = " ";
+                                                verificarTrampa(trampaExis, tablero, x, y);
+                                                trampaExis = false;
                                             } else if (tablero[x][y - (y - 1)] == "@") {
                                                 tablero[x][y - (y - 1)] = icono;
-                                                tablero[x][y] = " ";
+                                                //tablero[x][y] = " ";
+                                                verificarTrampa(trampaExis, tablero, x, y);
+                                                trampaExis = false;
                                                 puntos += 5;
                                             } else if (tablero[x][y - (y - 1)] == "?") {
                                                 tablero[x][y - (y - 1)] = icono;
-                                                tablero[x][y] = " ";
+                                                //tablero[x][y] = " ";
+                                                verificarTrampa(trampaExis, tablero, x, y);
+                                                trampaExis = false;
                                                 puntos += 10;
                                             } else if (tablero[x][y - (y - 1)] == "X") {
                                                 tablero[x][y - (y - 2)] = icono;
-                                                tablero[x][y] = " ";
+                                                //tablero[x][y] = " ";
+                                                verificarTrampa(trampaExis, tablero, x, y);
+                                                trampaExis = true;
                                                 vidas -= 1;
                                             } else if (tablero[x][y - (y - 1)] == "#") {
                                                 tablero[x][y] = " ";
@@ -395,17 +393,14 @@ public class Pac_Man {
 
                                 //Actualizacion de y 
                                 if (tablero[x][y + 1] == "|") {
-                                    if (tablero[x][y - (y - 1)] == "X") {
-                                        y = y - (y - 2);
-                                    } else if (tablero[x][y - (y - 1)] == "#") {
+
+                                    if (tablero[x][y - (y - 1)] == "#") {
                                         y = y;
                                     } else {
                                         y = y - (y - 1);
                                     }
                                 } else if (tablero[x][y + 1] == "#") {
                                     y = y;
-                                } else if (tablero[x][y + 1] == "X") {
-                                    y = y + 2;
                                 } else {
                                     y = y + 1;
                                 }
@@ -421,10 +416,11 @@ public class Pac_Man {
                                     for (int i = 0; i < filas; i++) {
                                         for (int j = 0; j < cols; j++) {
                                             tablero[x][y - 1] = icono;
-                                            tablero[x][y] = " ";
-
+                                            //tablero[x][y] = " ";
+                                            verificarTrampa(trampaExis, tablero, x, y);
                                         }
                                     }
+                                    trampaExis = false;
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
                                 } //Evaluar casilla de pared
                                 else if (tablero[x][y - 1] == "#") {
@@ -443,10 +439,11 @@ public class Pac_Man {
                                     for (int i = 0; i < filas; i++) {
                                         for (int j = 0; j < cols; j++) {
                                             tablero[x][y - 1] = icono;
-                                            tablero[x][y] = " ";
-
+                                            //tablero[x][y] = " ";
+                                            verificarTrampa(trampaExis, tablero, x, y);
                                         }
                                     }
+                                    trampaExis = false;
                                     puntos += 5;
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
                                 } //Evaluar casilla de comida 2
@@ -454,10 +451,11 @@ public class Pac_Man {
                                     for (int i = 0; i < filas; i++) {
                                         for (int j = 0; j < cols; j++) {
                                             tablero[x][y - 1] = icono;
-                                            tablero[x][y] = " ";
-
+                                            //tablero[x][y] = " ";
+                                            verificarTrampa(trampaExis, tablero, x, y);
                                         }
                                     }
+                                    trampaExis = false;
                                     puntos += 10;
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
 
@@ -467,27 +465,12 @@ public class Pac_Man {
                                         for (int j = 0; j < cols; j++) {
 
                                             //Esto evalua que si despues de la trampa hay cosas
-                                            if (tablero[x][y - 2] == " ") {
-                                                tablero[x][y - 2] = icono;
-                                                tablero[x][y] = " ";
-                                            } else if (tablero[x][y - 2] == "@") {
-                                                tablero[x][y - 2] = icono;
-                                                tablero[x][y] = " ";
-                                                puntos += 5;
-                                            } else if (tablero[x][y - 2] == "?") {
-                                                tablero[x][y - 2] = icono;
-                                                tablero[x][y] = " ";
-                                                puntos += 10;
-                                            } else if (tablero[x][y + 2] == "X") {
-                                                tablero[x][y + 4] = icono;
-                                                tablero[x][y] = " ";
-
-                                            } else if (tablero[x][y + 2] == "#") {
-                                                tablero[x][y] = " ";
-                                            }
+                                            tablero[x][y - 1] = icono;
+                                           verificarTrampa(trampaExis, tablero, x, y);
 
                                         }
                                     }
+                                    trampaExis = true;
                                     vidas = vidas - 1;
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
 
@@ -496,23 +479,31 @@ public class Pac_Man {
                                     for (int i = 0; i < filas; i++) {
                                         for (int j = 0; j < cols; j++) {
                                             //Esto evalua que si despues de atravesar un borde hay cosas
-                                            if (tablero[x][y - 1] == " ") {
-                                                tablero[x][y - 2] = icono;
-                                                tablero[x][y] = " ";
-                                            } else if (tablero[x][y - 1] == "@") {
-                                                tablero[x][y - 1] = icono;
-                                                tablero[x][y] = " ";
+                                            if (tablero[x][filas] == " ") {
+                                                tablero[x][filas] = icono;
+                                                //tablero[x][y] = " ";
+                                                verificarTrampa(trampaExis, tablero, x, y);
+                                                trampaExis = false;
+                                            } else if (tablero[x][filas] == "@") {
+                                                tablero[x][filas] = icono;
+                                                //tablero[x][y] = " ";
+                                                verificarTrampa(trampaExis, tablero, x, y);
+                                                trampaExis = false;
                                                 puntos += 5;
-                                            } else if (tablero[x][y - 1] == "?") {
-                                                tablero[x][y - 1] = icono;
-                                                tablero[x][y] = " ";
+                                            } else if (tablero[x][filas] == "?") {
+                                                tablero[x][filas] = icono;
+                                                //tablero[x][y] = " ";
+                                                verificarTrampa(trampaExis, tablero, x, y);
+                                                trampaExis = false;
                                                 puntos += 10;
-                                            } else if (tablero[x][y - 1] == "X") {
-                                                tablero[x][y - 2] = icono;
-                                                tablero[x][y] = " ";
+                                            } else if (tablero[x][filas] == "X") {
+                                                tablero[x][filas] = icono;
+                                                //tablero[x][y] = " ";
                                                 //vidas -= 1;
-                                            } else if (tablero[x][y - 1] == "#") {
-                                                tablero[x][y] = " ";
+                                                verificarTrampa(trampaExis, tablero, x, y);
+                                                trampaExis = true;
+                                            } else if (tablero[x][filas] == "#") {
+                                                tablero[x][y] = icono;
                                             }
                                         }
                                     }
@@ -520,17 +511,14 @@ public class Pac_Man {
                                 }
                                 //Actualizando y
                                 if (tablero[x][y - 1] == "|") {
-                                    if (tablero[x][y - 1] == "X") {
-                                        y = y - 2;
-                                    } else if (tablero[x][y - 1] == "#") {
+                                    
+                                    if (tablero[x][y] == "#") {
                                         y = y;
                                     } else {
-                                        y = y - 1;
+                                        y = filas;
                                     }
                                 } else if (tablero[x][y - 1] == "#") {
                                     y = y;
-                                } else if (tablero[x][y - 1] == "X") {
-                                    y = y - 2;
                                 } else {
                                     y = y - 1;
                                 }
@@ -545,10 +533,11 @@ public class Pac_Man {
                                     for (int i = 0; i < filas; i++) {
                                         for (int j = 0; j < cols; j++) {
                                             tablero[x + 1][y] = icono;
-                                            tablero[x][y] = " ";
-
+                                            //tablero[x][y] = " ";
+                                            verificarTrampa(trampaExis, tablero, x, y);
                                         }
                                     }
+                                    trampaExis = false;
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
                                 } //Evaluar casilla de pared
                                 else if (tablero[x + 1][y] == "#") {
@@ -567,10 +556,11 @@ public class Pac_Man {
                                     for (int i = 0; i < filas; i++) {
                                         for (int j = 0; j < cols; j++) {
                                             tablero[x + 1][y] = icono;
-                                            tablero[x][y] = " ";
-
+                                            //tablero[x][y] = " ";
+                                            verificarTrampa(trampaExis, tablero, x, y);
                                         }
                                     }
+                                    trampaExis = false;
                                     puntos += 5;
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
                                 } //Evaluar casilla de comida 2
@@ -578,10 +568,11 @@ public class Pac_Man {
                                     for (int i = 0; i < filas; i++) {
                                         for (int j = 0; j < cols; j++) {
                                             tablero[x + 1][y] = icono;
-                                            tablero[x][y] = " ";
-
+                                            //tablero[x][y] = " ";
+                                            verificarTrampa(trampaExis, tablero, x, y);
                                         }
                                     }
+                                    trampaExis = false;
                                     puntos += 10;
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
 
@@ -591,27 +582,12 @@ public class Pac_Man {
                                         for (int j = 0; j < cols; j++) {
 
                                             //Esto evalua que si despues de la trampa hay cosas
-                                            if (tablero[x + 2][y] == " ") {
-                                                tablero[x + 2][y] = icono;
-                                                tablero[x][y] = " ";
-                                            } else if (tablero[x + 2][y] == "@") {
-                                                tablero[x + 2][y] = icono;
-                                                tablero[x][y] = " ";
-                                                puntos += 5;
-                                            } else if (tablero[x + 2][y] == "?") {
-                                                tablero[x + 2][y] = icono;
-                                                tablero[x][y] = " ";
-                                                puntos += 10;
-                                            } else if (tablero[x + 2][y] == "X") {
-                                                tablero[x + 2][y] = icono;
-                                                tablero[x][y] = " ";
-
-                                            } else if (tablero[x + 2][y] == "#") {
-                                                tablero[x][y] = " ";
-                                            }
+                                            tablero[x + 1][y] = icono;
+                                            verificarTrampa(trampaExis, tablero, x, y);
 
                                         }
                                     }
+                                    trampaExis = true;
                                     vidas = vidas - 1;
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
 
@@ -622,18 +598,26 @@ public class Pac_Man {
                                             //Esto evalua que si despues de atravesar un borde hay cosas
                                             if (tablero[x - (x - 1)][y] == " ") {
                                                 tablero[x - (x - 1)][y] = icono;
-                                                tablero[x][y] = " ";
+                                                //tablero[x][y] = " ";
+                                                verificarTrampa(trampaExis, tablero, x, y);
+                                                trampaExis = false;
                                             } else if (tablero[x - (x - 1)][y] == "@") {
                                                 tablero[x - (x - 1)][y] = icono;
-                                                tablero[x][y] = " ";
+                                                //tablero[x][y] = " ";
+                                                verificarTrampa(trampaExis, tablero, x, y);
+                                                trampaExis = false;
                                                 puntos += 5;
                                             } else if (tablero[x - (x - 1)][y] == "?") {
                                                 tablero[x - (x - 1)][y] = icono;
-                                                tablero[x][y] = " ";
+                                                //tablero[x][y] = " ";
+                                                verificarTrampa(trampaExis, tablero, x, y);
+                                                trampaExis = false;
                                                 puntos += 10;
                                             } else if (tablero[x - (x - 1)][y] == "X") {
                                                 tablero[x - (x - 2)][y] = icono;
-                                                tablero[x][y] = " ";
+                                                //tablero[x][y] = " ";
+                                                verificarTrampa(trampaExis, tablero, x, y);
+                                                trampaExis = true;
                                                 vidas = vidas - 1;
                                             } else if (tablero[x - (x - 1)][y] == "#") {
                                                 tablero[x][y] = " ";
@@ -645,17 +629,13 @@ public class Pac_Man {
 
                                 //Actualizacion de x 
                                 if (tablero[x + 1][y] == "=") {
-                                    if (tablero[x - (x - 1)][y] == "X") {
-                                        x = x - (x - 2);
-                                    } else if (tablero[x - (x - 1)][y] == "#") {
+                                    if (tablero[x - (cols - 1)][y] == "#") {
                                         x = x;
                                     } else {
                                         x = x - (x - 1);
                                     }
-                                } else if (tablero[x - 1][y] == "#") {
+                                } else if (tablero[cols + 1][y] == "#") {
                                     x = x;
-                                } else if (tablero[x - 1][y] == "X") {
-                                    x = x + 2;
                                 } else {
                                     x = x + 1;
                                 }
@@ -670,10 +650,11 @@ public class Pac_Man {
                                     for (int i = 0; i < filas; i++) {
                                         for (int j = 0; j < cols; j++) {
                                             tablero[x - 1][y] = icono;
-                                            tablero[x][y] = " ";
-
+                                            //tablero[x][y] = " ";
+                                            verificarTrampa(trampaExis, tablero, x, y);
                                         }
                                     }
+                                    trampaExis = false;
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
                                 } //Evaluar casilla de pared
                                 else if (tablero[x - 1][y] == "#") {
@@ -692,10 +673,11 @@ public class Pac_Man {
                                     for (int i = 0; i < filas; i++) {
                                         for (int j = 0; j < cols; j++) {
                                             tablero[x - 1][y] = icono;
-                                            tablero[x][y] = " ";
-
+                                            //tablero[x][y] = " ";
+                                            verificarTrampa(trampaExis, tablero, x, y);
                                         }
                                     }
+                                    trampaExis = false;
                                     puntos += 5;
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
                                 } //Evaluar casilla de comida 2
@@ -704,9 +686,10 @@ public class Pac_Man {
                                         for (int j = 0; j < cols; j++) {
                                             tablero[x - 1][y] = icono;
                                             tablero[x][y] = " ";
-
+                                            verificarTrampa(trampaExis, tablero, x, y);
                                         }
                                     }
+                                    trampaExis = false;
                                     puntos += 10;
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
 
@@ -716,27 +699,11 @@ public class Pac_Man {
                                         for (int j = 0; j < cols; j++) {
 
                                             //Esto evalua que si despues de la trampa hay cosas
-                                            if (tablero[x - 1][y] == " ") {
-                                                tablero[x - 2][y] = icono;
-                                                tablero[x][y] = " ";
-                                            } else if (tablero[x - 2][y] == "@") {
-                                                tablero[x - 2][y] = icono;
-                                                tablero[x][y] = " ";
-                                                puntos += 5;
-                                            } else if (tablero[x - 2][y] == "?") {
-                                                tablero[x - 2][y] = icono;
-                                                tablero[x][y] = " ";
-                                                puntos += 10;
-                                            } else if (tablero[x - 2][y] == "X") {
-                                                tablero[x - 2][y] = icono;
-                                                tablero[x][y] = " ";
-
-                                            } else if (tablero[x - 2][y] == "#") {
-                                                tablero[x][y] = " ";
-                                            }
+                                           verificarTrampa(trampaExis, tablero, x, y);
 
                                         }
                                     }
+                                    trampaExis = true; 
                                     vidas = vidas - 1;
                                     imprimirJuego(tablero, comida, puntos, vidas, bordeFilas, bordeCols);
 
@@ -745,23 +712,31 @@ public class Pac_Man {
                                     for (int i = 0; i < filas; i++) {
                                         for (int j = 0; j < cols; j++) {
                                             //Esto evalua que si despues de atravesar un borde hay cosas
-                                            if (tablero[cols - 1][y] == " ") {
-                                                tablero[cols - 1][y] = icono;
-                                                tablero[x][y] = " ";
-                                            } else if (tablero[cols - 1][y] == "@") {
-                                                tablero[cols - 1][y] = icono;
-                                                tablero[x][y] = " ";
+                                            if (tablero[cols][y] == " ") {
+                                                tablero[cols][y] = icono;
+                                                //tablero[x][y] = " ";
+                                                verificarTrampa(trampaExis, tablero, x, y);
+                                                trampaExis = false;
+                                            } else if (tablero[cols][y] == "@") {
+                                                tablero[cols][y] = icono;
+                                                //tablero[x][y] = " ";
+                                                verificarTrampa(trampaExis, tablero, x, y);
+                                                trampaExis = false;
                                                 puntos += 5;
-                                            } else if (tablero[cols - 1][y] == "?") {
-                                                tablero[cols - 1][y] = icono;
+                                            } else if (tablero[cols][y] == "?") {
+                                                tablero[cols][y] = icono;
                                                 tablero[x][y] = " ";
+                                                verificarTrampa(trampaExis, tablero, x, y);
+                                                trampaExis = false;
                                                 puntos += 10;
-                                            } else if (tablero[cols - 1][y] == "X") {
-                                                tablero[cols - 1][y] = icono;
-                                                tablero[x][y] = " ";
+                                            } else if (tablero[cols][y] == "X") {
+                                                tablero[cols][y] = icono;
+                                                //tablero[x][y] = " ";
+                                                verificarTrampa(trampaExis, tablero, x, y);
+                                                trampaExis = true;
                                                 vidas = vidas - 1;
                                             } else if (tablero[cols - 1][y] == "#") {
-                                                tablero[x][y] = " ";
+                                                tablero[x+1][y] = "#";
                                             }
                                         }
                                     }
@@ -769,18 +744,14 @@ public class Pac_Man {
                                 }
 
                                 //Actualizacion de y 
-                                if (tablero[x + 1][y] == "=") {
-                                    if (tablero[cols - 1][y] == "X") {
-                                        x = cols - 1;
-                                    } else if (tablero[cols - 1][y] == "#") {
+                                if (tablero[x - 1][y] == "=") {
+                                    if (tablero[cols][y] == "#") {
                                         x = x;
                                     } else {
-                                        x = cols - 1;
+                                        x = cols;
                                     }
                                 } else if (tablero[x - 1][y] == "#") {
                                     x = x;
-                                } else if (tablero[x - 1][y] == "X") {
-                                    x = x - 2;
                                 } else {
                                     x = x - 1;
                                 }
@@ -829,12 +800,10 @@ public class Pac_Man {
                                 System.out.println("Valor desconocido");
                         }
                     } while (vidas != 0 && puntosTotales != puntos);
-                    
+
                     //llamar metodo para guardar datos 
                     guardarDatos(nombre, puntos);
                     //Reiniciando las variables
-                    
-                    
 
                     System.out.println("=====================");
                     System.out.println("PARTIDA FINALIZADA");
@@ -851,7 +820,10 @@ public class Pac_Man {
                 case 3 ->
                     System.out.println("""
                                              GRACIAS POR JUGAR PAC-MAN 
-                                             Practica de Alvaro García""");
+                                             Practica de Alvaro García
+                                             Carnet: 202109567
+                                             Lab de IPC 1
+                                       """);
                 default ->
                     System.out.println("Valor desconocido");
             }
@@ -894,6 +866,18 @@ public class Pac_Man {
         System.out.println("========================================");
     }
 
+    //Evaluar trampa 
+    public static void verificarTrampa(boolean trampaExis, String[][] tablero, int x, int y) {
+        if (trampaExis) {
+            tablero[x][y] = "X";
+            
+        } else {
+            tablero[x][y] = " ";
+        }    
+    }
+    //Especial trampas
+    
+
     //pasar los datos a un metodo 
     public static void guardarDatos(String nombre, int puntos) {
         //Pasarlas a una matriz 
@@ -903,10 +887,10 @@ public class Pac_Man {
 
     //Imprimir
     public static void imprimirDatos(String nombre, int puntos) {
-        String[] listaJugador = new String[10]; 
+        String[] listaJugador = new String[10];
         String nuevoNombre = nombre;
         String nuevoPuntos = Integer.toString(puntos);
-        String  jugador = "Jugador: " + nuevoNombre + " |" + nuevoPuntos;
+        String jugador = "Jugador: " + nuevoNombre + " |" + nuevoPuntos;
         System.out.println(jugador);
     }
 }
