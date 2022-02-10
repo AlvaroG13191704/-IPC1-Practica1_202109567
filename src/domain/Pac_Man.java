@@ -16,7 +16,7 @@ public class Pac_Man {
         int opcion = 0;
         String nombre = "";
         int puntos = 0;
-        int contadorLista = 1;
+        int contadorLista = 0;
         //Creacion del menu
         while (opcion != 3) {
             System.out.println("PAC-MAN    IPC 1   2022");
@@ -52,6 +52,7 @@ public class Pac_Man {
                     System.out.print("Ingrese su nombre: ");
                     scanner.nextLine();
                     nombre = scanner.nextLine();
+
                     //Iconoos
                     System.out.println(" A " + " B " + " C " + " D " + " E " + " F " + " G " + " H " + " I " + " M ");
                     System.out.print("Ingrese el numero del icono que desea usar (1-10):");
@@ -169,8 +170,10 @@ public class Pac_Man {
                             }
                         }
                     }
+
                     int comida1 = random.nextInt(comida) + 1;
                     int comida2 = comida - comida1;
+
                     //Ingresar random
                     for (int i = 0; i < filas; i++) {
                         for (int j = 0; j < cols; j++) {
@@ -383,13 +386,13 @@ public class Pac_Man {
                                                 trampaExis = false;
                                                 puntos += 10;
                                             } else if (tablero[x][y - (y - 1)] == "X") {
-                                                tablero[x][y - (y - 2)] = icono;
+                                                tablero[x][y - (y - 1)] = icono;
                                                 //tablero[x][y] = " ";
                                                 verificarTrampa(trampaExis, tablero, x, y);
                                                 trampaExis = true;
                                                 vidas -= 1;
                                             } else if (tablero[x][y - (y - 1)] == "#") {
-                                                tablero[x][y] = " ";
+                                                tablero[x][y] = icono;
                                             }
                                         }
                                     }
@@ -484,30 +487,30 @@ public class Pac_Man {
                                     for (int i = 0; i < filas; i++) {
                                         for (int j = 0; j < cols; j++) {
                                             //Esto evalua que si despues de atravesar un borde hay cosas
-                                            if (tablero[x][filas] == " ") {
-                                                tablero[x][filas] = icono;
+                                            if (tablero[x][cols] == " ") {
+                                                tablero[x][cols] = icono;
                                                 //tablero[x][y] = " ";
                                                 verificarTrampa(trampaExis, tablero, x, y);
                                                 trampaExis = false;
-                                            } else if (tablero[x][filas] == "@") {
-                                                tablero[x][filas] = icono;
+                                            } else if (tablero[x][cols] == "@") {
+                                                tablero[x][cols] = icono;
                                                 //tablero[x][y] = " ";
                                                 verificarTrampa(trampaExis, tablero, x, y);
                                                 trampaExis = false;
                                                 puntos += 5;
-                                            } else if (tablero[x][filas] == "?") {
-                                                tablero[x][filas] = icono;
+                                            } else if (tablero[x][cols] == "?") {
+                                                tablero[x][cols] = icono;
                                                 //tablero[x][y] = " ";
                                                 verificarTrampa(trampaExis, tablero, x, y);
                                                 trampaExis = false;
                                                 puntos += 10;
-                                            } else if (tablero[x][filas] == "X") {
-                                                tablero[x][filas] = icono;
+                                            } else if (tablero[x][cols] == "X") {
+                                                tablero[x][cols] = icono;
                                                 //tablero[x][y] = " ";
                                                 //vidas -= 1;
                                                 verificarTrampa(trampaExis, tablero, x, y);
                                                 trampaExis = true;
-                                            } else if (tablero[x][filas] == "#") {
+                                            } else if (tablero[x][cols] == "#") {
                                                 tablero[x][y] = icono;
                                             }
                                         }
@@ -520,7 +523,7 @@ public class Pac_Man {
                                     if (tablero[x][y] == "#") {
                                         y = y;
                                     } else {
-                                        y = filas;
+                                        y = cols;
                                     }
                                 } else if (tablero[x][y - 1] == "#") {
                                     y = y;
@@ -619,13 +622,14 @@ public class Pac_Man {
                                                 trampaExis = false;
                                                 puntos += 10;
                                             } else if (tablero[x - (x - 1)][y] == "X") {
-                                                tablero[x - (x - 2)][y] = icono;
+                                                tablero[x - (x - 1)][y] = icono;
                                                 //tablero[x][y] = " ";
                                                 verificarTrampa(trampaExis, tablero, x, y);
                                                 trampaExis = true;
                                                 vidas = vidas - 1;
                                             } else if (tablero[x - (x - 1)][y] == "#") {
-                                                tablero[x][y] = " ";
+                                                tablero[x][y] = icono;
+                                                //System.out.println("Casilla ocupada, hay una pared");
                                             }
                                         }
                                     }
@@ -634,12 +638,12 @@ public class Pac_Man {
 
                                 //Actualizacion de x 
                                 if (tablero[x + 1][y] == "=") {
-                                    if (tablero[x - (cols - 1)][y] == "#") {
+                                    if (tablero[x - (filas - 1)][y] == "#") {
                                         x = x;
                                     } else {
-                                        x = x - (x - 1);
+                                        x = x - (filas - 1);
                                     }
-                                } else if (tablero[cols + 1][y] == "#") {
+                                } else if (tablero[filas + 1][y] == "#") {
                                     x = x;
                                 } else {
                                     x = x + 1;
@@ -649,7 +653,7 @@ public class Pac_Man {
                             case "W":
                             case "w":
                                 //INICIO MOVIMIENTO HACIA ARRIBA
-                                //Moverse hacia abajo
+                                //Moverse hacia arriba
                                 if (tablero[x - 1][y] == " ") {
 
                                     for (int i = 0; i < filas; i++) {
@@ -690,7 +694,7 @@ public class Pac_Man {
                                     for (int i = 0; i < filas; i++) {
                                         for (int j = 0; j < cols; j++) {
                                             tablero[x - 1][y] = icono;
-                                            tablero[x][y] = " ";
+                                            //tablero[x][y] = " ";
                                             verificarTrampa(trampaExis, tablero, x, y);
                                         }
                                     }
@@ -704,6 +708,7 @@ public class Pac_Man {
                                         for (int j = 0; j < cols; j++) {
 
                                             //Esto evalua que si despues de la trampa hay cosas
+                                            tablero[x - 1][y] = icono;
                                             verificarTrampa(trampaExis, tablero, x, y);
 
                                         }
@@ -717,31 +722,32 @@ public class Pac_Man {
                                     for (int i = 0; i < filas; i++) {
                                         for (int j = 0; j < cols; j++) {
                                             //Esto evalua que si despues de atravesar un borde hay cosas
-                                            if (tablero[cols][y] == " ") {
-                                                tablero[cols][y] = icono;
+                                            if (tablero[filas][y] == " ") {
+                                                tablero[filas][y] = icono;
                                                 //tablero[x][y] = " ";
                                                 verificarTrampa(trampaExis, tablero, x, y);
                                                 trampaExis = false;
-                                            } else if (tablero[cols][y] == "@") {
-                                                tablero[cols][y] = icono;
+                                            } else if (tablero[filas][y] == "@") {
+                                                tablero[filas][y] = icono;
                                                 //tablero[x][y] = " ";
                                                 verificarTrampa(trampaExis, tablero, x, y);
                                                 trampaExis = false;
                                                 puntos += 5;
-                                            } else if (tablero[cols][y] == "?") {
-                                                tablero[cols][y] = icono;
+                                            } else if (tablero[filas][y] == "?") {
+                                                tablero[filas][y] = icono;
                                                 tablero[x][y] = " ";
                                                 verificarTrampa(trampaExis, tablero, x, y);
                                                 trampaExis = false;
                                                 puntos += 10;
-                                            } else if (tablero[cols][y] == "X") {
-                                                tablero[cols][y] = icono;
+                                            } else if (tablero[filas][y] == "X") {
+                                                tablero[filas][y] = icono;
                                                 //tablero[x][y] = " ";
                                                 verificarTrampa(trampaExis, tablero, x, y);
                                                 trampaExis = true;
                                                 vidas = vidas - 1;
                                             } else if (tablero[cols - 1][y] == "#") {
                                                 tablero[x + 1][y] = "#";
+                                                //System.out.println("Casilla ocupada, hay una pared");
                                             }
                                         }
                                     }
@@ -750,10 +756,10 @@ public class Pac_Man {
 
                                 //Actualizacion de y 
                                 if (tablero[x - 1][y] == "=") {
-                                    if (tablero[cols][y] == "#") {
+                                    if (tablero[filas][y] == "#") {
                                         x = x;
                                     } else {
-                                        x = cols;
+                                        x = filas;
                                     }
                                 } else if (tablero[x - 1][y] == "#") {
                                     x = x;
@@ -784,8 +790,12 @@ public class Pac_Man {
                                             break;
                                         case 2:
                                             //Tablero
-                                            guardarDatos(nombre, puntos, contadorLista, listaJugador, listaPuntos);
-                                            imprimirDatos(listaJugador, listaPuntos);
+//                                            if (contadorLista == 1) {
+//
+//                                            } else {
+//                                                guardarDatos(nombre, puntos, contadorLista, listaJugador, listaPuntos);
+//                                            }
+//                                            imprimirDatos(listaJugador, listaPuntos);
                                             break;
                                         case 3:
                                             vidas = 0;
@@ -805,10 +815,11 @@ public class Pac_Man {
                             default:
                                 System.out.println("Valor desconocido");
                         }
-                    } while (vidas != 0 && puntosTotales != puntos);
 
+                    } while (vidas != 0 && puntosTotales != puntos);
                     //Contador
-                    contadorLista++;
+                    //
+                    contadorLista ++;
 
                     //guardarDatos(nombre, puntos);
                     System.out.println("=====================");
@@ -820,7 +831,11 @@ public class Pac_Man {
                 case 2 -> {
                     System.out.println("TABLA DE POSICIONES");
                     System.out.println("=====================");
-                    guardarDatos(nombre, puntos, contadorLista, listaJugador, listaPuntos);
+                    if (contadorLista == 0) {
+
+                    } else {
+                        guardarDatos(nombre, puntos, contadorLista, listaJugador, listaPuntos);
+                    }
                     imprimirDatos(listaJugador, listaPuntos);
                     System.out.println("=====================");
                 }
@@ -889,22 +904,43 @@ public class Pac_Man {
 
         String nuevoNombre = nombre;
         int nuevoPuntos = puntos;
-
         int contador = contadorLista;
-
-        //Arrelgos
+        int pos;
+        int aux;
+        String aux2;
+        //contadorLista
         if (listaJugador.length > contador && listaPuntos.length > contador) {
-            listaJugador[contador-2] = nuevoNombre;
-            listaPuntos[contador-2] = nuevoPuntos;
-        } 
+            listaJugador[contador] = nuevoNombre;
+            listaPuntos[contador] = nuevoPuntos;
+        } else {
+            //Quitar el menor y agregar el mayor
+        }
+        //Ordenar puntos y nombre
+        for (int i = 0; i < listaPuntos.length; i++) {
+            pos = i;
+            aux = listaPuntos[i];
+            aux2 = listaJugador[i];
+            while (pos > 1 && listaPuntos[pos - 1] > aux) {
+                listaPuntos[pos] = listaPuntos[pos - 1]; //Aqui el movimiento
+                listaJugador[pos] = listaJugador[pos - 1];
+                pos--;
+            }
+            listaPuntos[pos] = aux;
+            listaJugador[pos] = aux2;
+        }
+
     }
 
     public static void imprimirDatos(String[] listaJugador, int[] listaPuntos) {
         //Imprimir    
-        for (int i = 0; i < 10; i++) {
+        for (int i = (listaPuntos.length - 1); i >= 0; i--) {
             if (listaJugador[i] != null) {
-                System.out.println(i + 1 + "." + listaJugador[i] + " - " + listaPuntos[i]);
+                int posact = listaPuntos.length - i;
+                System.out.println(posact + "." + listaJugador[i] + " - " + listaPuntos[i]);
             }
+        }
+        if (listaJugador[9] == null) {
+            System.out.println("NO HAY REGISTRO DE PARTIDA");
         }
     }
 
