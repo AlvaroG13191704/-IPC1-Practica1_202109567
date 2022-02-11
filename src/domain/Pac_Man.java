@@ -403,7 +403,6 @@ public class Pac_Man {
 
                                 //Actualizacion de y 
                                 if (tablero[x][y + 1] == "|") {
-
                                     if (tablero[x][y - (y - 1)] == "#") {
                                         y = y;
                                     } else {
@@ -645,7 +644,7 @@ public class Pac_Man {
                                     } else {
                                         x = x - (filas - 1);
                                     }
-                                } else if (tablero[filas + 1][y] == "#") {
+                                } else if (tablero[x + 1][y] == "#") {
                                     x = x;
                                 } else {
                                     x = x + 1;
@@ -828,7 +827,7 @@ public class Pac_Man {
                     System.out.println("TABLA DE POSICIONES");
                     System.out.println("=====================");
 
-                    imprimirDatos(listaJugador, listaPuntos);//Impresión 
+                        imprimirDatos(listaJugador, listaPuntos);//Impresión 
                     
                     System.out.println("=====================");
                 }
@@ -863,8 +862,8 @@ public class Pac_Man {
 
     //Imprimir tablero
     public static void imprimirTablero(String[][] tablero, int bordeFilas, int bordeCols) {
-        for (int i = 0; i < bordeFilas; i++) {
-            for (int j = 0; j < bordeCols; j++) {
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero[i].length; j++) {
                 System.out.print(tablero[i][j] + "   ");
             }
             System.out.println("");
@@ -935,9 +934,7 @@ public class Pac_Man {
                 System.out.println(posact + "." + listaJugador[i] + " - " + listaPuntos[i]);
             }
         }
-        if (listaJugador.equals(null)) {
-            System.out.println("NO HAY REGISTRO DE PARTIDA");
-        }
+        
     }
 
 }
