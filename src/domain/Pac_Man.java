@@ -10,13 +10,14 @@ public class Pac_Man {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
 
-        String[] listaJugador = new String[10];
-        int[] listaPuntos = new int[10];
+        String[] listaJugador = new String[20];
+        int[] listaPuntos = new int[20];
 
         int opcion = 0;
         String nombre = "";
         int puntos = 0;
         int contadorLista = 0;
+        
         //Creacion del menu
         while (opcion != 3) {
             System.out.println("PAC-MAN    IPC 1   2022");
@@ -45,8 +46,9 @@ public class Pac_Man {
                     int y;
                     String movimiento = "";
                     int vidas = 3;
-                    int opcionPausa;
-
+                    int opcionPausa;            
+                    contadorLista++;
+                    
                     System.out.println("=======================================");
                     System.out.println("Bienvenido..............");
                     System.out.print("Ingrese su nombre: ");
@@ -789,13 +791,7 @@ public class Pac_Man {
                                             opcionPausa = 4;
                                             break;
                                         case 2:
-                                            //Tablero
-//                                            if (contadorLista == 1) {
-//
-//                                            } else {
-//                                                guardarDatos(nombre, puntos, contadorLista, listaJugador, listaPuntos);
-//                                            }
-//                                            imprimirDatos(listaJugador, listaPuntos);
+                                            imprimirDatos(listaJugador, listaPuntos);
                                             break;
                                         case 3:
                                             vidas = 0;
@@ -815,12 +811,12 @@ public class Pac_Man {
                             default:
                                 System.out.println("Valor desconocido");
                         }
-
+                        
                     } while (vidas != 0 && puntosTotales != puntos);
                     //Contador
-                    //
-                    contadorLista ++;
-
+                    guardarDatos(nombre, puntos, contadorLista, listaJugador, listaPuntos);//Funcionamiento
+                    //contadorLista ++;
+                    
                     //guardarDatos(nombre, puntos);
                     System.out.println("=====================");
                     System.out.println("PARTIDA FINALIZADA");
@@ -831,12 +827,9 @@ public class Pac_Man {
                 case 2 -> {
                     System.out.println("TABLA DE POSICIONES");
                     System.out.println("=====================");
-                    if (contadorLista == 0) {
 
-                    } else {
-                        guardarDatos(nombre, puntos, contadorLista, listaJugador, listaPuntos);
-                    }
-                    imprimirDatos(listaJugador, listaPuntos);
+                    imprimirDatos(listaJugador, listaPuntos);//Impresión 
+                    
                     System.out.println("=====================");
                 }
                 case 3 ->
@@ -908,6 +901,7 @@ public class Pac_Man {
         int pos;
         int aux;
         String aux2;
+        
         //contadorLista
         if (listaJugador.length > contador && listaPuntos.length > contador) {
             listaJugador[contador] = nuevoNombre;
@@ -915,7 +909,9 @@ public class Pac_Man {
         } else {
             //Quitar el menor y agregar el mayor
         }
-        //Ordenar puntos y nombre
+        
+        //Ordenar puntos y nombre, método de insercción 
+        System.out.println(contadorLista);
         for (int i = 0; i < listaPuntos.length; i++) {
             pos = i;
             aux = listaPuntos[i];
@@ -933,13 +929,13 @@ public class Pac_Man {
 
     public static void imprimirDatos(String[] listaJugador, int[] listaPuntos) {
         //Imprimir    
-        for (int i = (listaPuntos.length - 1); i >= 0; i--) {
+        for (int i = (listaJugador.length-1); i >= 0; i--) {
             if (listaJugador[i] != null) {
                 int posact = listaPuntos.length - i;
                 System.out.println(posact + "." + listaJugador[i] + " - " + listaPuntos[i]);
             }
         }
-        if (listaJugador[9] == null) {
+        if (listaJugador.equals(null)) {
             System.out.println("NO HAY REGISTRO DE PARTIDA");
         }
     }
